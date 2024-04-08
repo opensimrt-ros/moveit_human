@@ -1,0 +1,30 @@
+controller_list:
+  - name: fake_left_foot_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - hip_l_RX
+      - hip_l_RY
+      - hip_l_RZ
+      - knee_l_RX
+      - knee_l_RZ
+      - knee_l_RY
+      - ankle_l
+      - subtalar_l
+      - mtp_l
+  - name: fake_right_foot_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - hip_r_RX
+      - hip_r_RY
+      - hip_r_RZ
+      - knee_r_RX
+      - knee_r_RZ
+      - knee_r_RY
+      - ankle_r
+      - subtalar_r
+      - mtp_r
+initial:  # Define initial robot poses per group
+  - group: left_foot
+    pose: standard_position
+  - group: right_foot
+    pose: standard_position

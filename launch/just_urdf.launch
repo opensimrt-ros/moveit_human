@@ -1,0 +1,15 @@
+<launch>
+  <!-- By default we do not overwrite the URDF. Change the following to true to change the default behavior -->
+  <arg name="load_robot_description" default="true"/>
+
+  <arg name="robot_description" default="robot_description"/>
+
+  <!-- Load universal robot description format (URDF) -->
+  <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="$(find xacro)/xacro $(find gait1992_description)/description/model_generic/human_with_ximus.urdf.xacro"/>
+  
+	<include file="$(find osrt_ros)/launch/opensim_tf.launch"/>
+	<include file="$(find moveit_human)/launch/ramp.launch">
+	<arg name="use_rviz" value="true"/>
+	</include>
+</launch>
+

@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: gait1992_description
+    relative_path: description/model_generic/model_generic_aCol.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/model_generic.srdf
+  CONFIG:
+    author_name: fbk
+    author_email: frekle@kth.se
+    generated_timestamp: 1704197794

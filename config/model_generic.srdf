@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+This is a format for representing semantic information about the robot structure.
+A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="model_generic">
+	<!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+	<!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+	<!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+	<!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+	<!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+	<!-- group name="base">
+		<link name="pelvis"/>
+	</group -->
+
+	<group name="left_foot">
+		<link name="talus_l"/>
+		<link name="calcn_l"/>
+		<link name="toes_l"/>
+		<joint name="ankle_l"/>
+		<joint name="subtalar_l"/>
+		<joint name="mtp_l"/>
+	</group>
+
+	<group name="left_leg">
+		<link name="femur_l_f1"/>
+		<link name="femur_l_f2"/>
+		<link name="femur_l"/>
+		<link name="tibia_l_f1"/>
+		<link name="tibia_l_f2"/>
+		<link name="tibia_l"/>
+		<joint name="hip_l_RZ"/>
+		<joint name="hip_l_RY"/>
+		<joint name="hip_l_RX"/>
+		<joint name="knee_l_RX"/>
+		<joint name="knee_l_RZ"/>
+		<joint name="knee_l_RY"/>
+		<link name="talus_l"/>
+		<link name="calcn_l"/>
+		<link name="toes_l"/>
+		<joint name="ankle_l"/>
+		<joint name="subtalar_l"/>
+		<joint name="mtp_l"/>
+	</group>
+	<group name="right_leg">
+		<link name="femur_r_f1"/>
+		<link name="femur_r_f2"/>
+		<link name="femur_r"/>
+		<link name="tibia_r_f1"/>
+		<link name="tibia_r_f2"/>
+		<link name="tibia_r"/>
+		<joint name="hip_r_RX"/>
+		<joint name="hip_r_RY"/>
+		<joint name="hip_r_RZ"/>
+		<joint name="knee_r_RX"/>
+		<joint name="knee_r_RZ"/>
+		<joint name="knee_r_RY"/>
+		<link name="talus_r"/>
+		<link name="calcn_r"/>
+		<link name="toes_r"/>
+		<joint name="ankle_r"/>
+		<joint name="subtalar_r"/>
+		<joint name="mtp_r"/>
+	</group>
+	<group name="right_foot">
+		<link name="talus_r"/>
+		<link name="calcn_r"/>
+		<link name="toes_r"/>
+		<joint name="ankle_r"/>
+		<joint name="subtalar_r"/>
+		<joint name="mtp_r"/>
+	</group>
+	<!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+	<group_state name="standard_position" group="left_leg">
+		<joint name="hip_l_RX" value="0"/>
+		<joint name="hip_l_RY" value="0"/>
+		<joint name="hip_l_RZ" value="0"/>
+		<joint name="knee_l_RX" value="0"/>
+		<joint name="knee_l_RY" value="0"/>
+		<joint name="knee_l_RZ" value="0"/>
+		<joint name="ankle_l" value="0"/>
+		<joint name="subtalar_l" value="0"/>
+		<joint name="mtp_l" value="0"/>
+	</group_state>
+	<group_state name="standard_position" group="left_foot">
+		<joint name="ankle_l" value="0"/>
+		<joint name="subtalar_l" value="0"/>
+		<joint name="mtp_l" value="0"/>
+	</group_state>
+	<group_state name="standard_position" group="right_leg">
+		<joint name="hip_r_RX" value="0"/>
+		<joint name="hip_r_RY" value="0"/>
+		<joint name="hip_r_RZ" value="0"/>
+		<joint name="knee_r_RX" value="0"/>
+		<joint name="knee_r_RY" value="0"/>
+		<joint name="knee_r_RZ" value="0"/>
+		<joint name="ankle_r" value="0"/>
+		<joint name="subtalar_r" value="0"/>
+		<joint name="mtp_r" value="0"/>
+	</group_state>
+	<group_state name="standard_position" group="right_foot">
+		<joint name="ankle_r" value="0"/>
+		<joint name="subtalar_r" value="0"/>
+		<joint name="mtp_r" value="0"/>
+	</group_state>
+	<!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+	<end_effector name="left_foot_tip" parent_link="toes_l" group="left_foot"/>
+
+	<end_effector name="right_foot_tip" parent_link="tibia_r" parent_group="right_leg" group="right_foot"/>
+	<!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+	<virtual_joint name="moveit_virtual_placer" type="fixed" parent_frame="map" child_link="subject_opensim"/>
+	<!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+	<disable_collisions link1="calcn_l" link2="talus_l" reason="Adjacent"/>
+	<disable_collisions link1="calcn_l" link2="toes_l" reason="Adjacent"/>
+	<disable_collisions link1="calcn_r" link2="talus_r" reason="Adjacent"/>
+	<disable_collisions link1="calcn_r" link2="toes_r" reason="Adjacent"/>
+	<disable_collisions link1="femur_l" link2="pelvis" reason="Adjacent"/>
+	<disable_collisions link1="femur_l" link2="tibia_l" reason="Adjacent"/>
+	<disable_collisions link1="femur_r" link2="pelvis" reason="Adjacent"/>
+	<disable_collisions link1="femur_r" link2="tibia_r" reason="Adjacent"/>
+	<disable_collisions link1="pelvis" link2="torso" reason="Adjacent"/>
+	<disable_collisions link1="talus_l" link2="tibia_l" reason="Adjacent"/>
+	<disable_collisions link1="talus_l" link2="toes_l" reason="Never"/>
+	<disable_collisions link1="talus_r" link2="tibia_r" reason="Adjacent"/>
+	<disable_collisions link1="talus_r" link2="toes_r" reason="Never"/>
+
+	<disable_collisions link1="torso" link2="torso_imu" reason="Adjacent"/>
+
+	<disable_collisions link1="calcn_r" link2="talus_r_imu" reason="Adjacent"/>
+	<disable_collisions link1="talus_r" link2="talus_r_imu" reason="Adjacent"/>
+	<disable_collisions link1="tibia_r" link2="tibia_r_imu" reason="Adjacent"/>
+	<disable_collisions link1="femur_r" link2="femur_r_imu" reason="Adjacent"/>
+	<disable_collisions link1="calcn_l" link2="talus_l_imu" reason="Adjacent"/>
+	<disable_collisions link1="talus_l" link2="talus_l_imu" reason="Adjacent"/>
+	<disable_collisions link1="tibia_l" link2="tibia_l_imu" reason="Adjacent"/>
+	<disable_collisions link1="femur_l" link2="femur_l_imu" reason="Adjacent"/>
+</robot>
